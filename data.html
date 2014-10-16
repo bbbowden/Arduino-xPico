@@ -1,0 +1,29 @@
+<html>
+
+<body onload="setTimeout(updateData(),1000);">
+The data from the device is: <div id="devicedata"></div>
+
+<script>	
+	var xmlhttp = new XMLHttpRequest();
+	var timeout;
+	
+	xmlhttp.onreadystatechange=function() {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+			document.getElementById("devicedata").innerHTML = xmlhttp.responseText;
+			clearTimeout(timeout);
+			timeout = setTimeout(function(){updateData();}, 250);
+		}
+	};
+	
+	function updateData() {	
+		xmlhttp.open("POST", "/mux_http", false);
+		xmlhttp.send("getData!");
+	}
+	
+	window.onload = function(){ updateData(); };
+		
+</script>
+
+</body>
+
+</html>
